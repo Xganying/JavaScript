@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>xml_for_Dom2</title>
+</head>
+<body>
+
+</body>
+
+<script>
+
+    /*
+    var xmlDom = document.implementation.createDocument("","root",null);
+    alert(xmlDom.documentElement.tagName); //root
+    alert(xmlDom.getElementsByTagName('root')[0].tagName); //root
+
+    //使用标准DOM创建新节点
+    var newnode = xmlDom.createElement('newnode');
+    xmlDom.documentElement.appendChild(newnode);
+    alert(xmlDom.getElementsByTagName('newnode')[0].tagName); //newnode
+
+    //DOM2 不支持XMLload()
+
+
+    //同步加载xml文件
+    var xmlDom = document.implementation.createDocument("","root",null);
+    xmlDom.async = false; //false: 同步, true: 异步（默认）
+    xmlDom.load('xml_demo.xml'); //载入外部XML文件
+    //alert(xmlDom.xml); // 报错：DOM2没有 .xml 属性来序列化XML字符串
+    alert(xmlDom.getElementsByTagName('user')[0].tagName); //user
+    alert(xmlDom.getElementsByTagName('user')[0].firstChild.nodeValue); //Cynthia
+    alert(xmlDom.getElementsByTagName('user')[0].textContent); //Cynthia
+    //相当于XHTML中的innerHTML ,IE不支持
+
+
+
+    //异步加载xml文件
+    var xmlDom = document.implementation.createDocument("","root",null);
+    xmlDom.async = true;
+    xmlDom.onload=function(){
+        alert(xmlDom.getElementsByTagName('user')[0].tagName); //user
+        alert(xmlDom.getElementsByTagName('user')[0].firstChild.nodeValue); //Cynthia
+        alert(xmlDom.getElementsByTagName('user')[0].textContent); //Cynthia 相当于XHTML
+    };
+    xmlDom.load('xml_demo.xml'); //载入外部XML文件，load只支持火狐浏览器和新版的Opera浏览器，其他不支持
+
+    */
+
+    //模拟XMLload()方法，简易的创建XML字符串
+    var xmlParser = new DOMParser(); //创建DOMParser对象
+    var xmlStr = '<root><user>Cynthia</user></root>';
+    var xmlDom = xmlParser.parseFromString(xmlStr,'text/xml');
+    alert(xmlDom.getElementsByTagName('user')[0].textContent); //Cynthia
+
+    //模拟.xml属性，序列化字符串
+    var serializer = new XMLSerializer();
+    var xml = serializer.serializeToString(xmlDom);
+    var errors = xmlDom.getElementsByTagName('parsererror');
+    if(errors.length == 0){
+        alert(xml); //<root><user>Cynthia</user></root>
+    }
+    else{
+        throw new Error('错误信息:'+errors[0].textContent);
+    }
+
+
+
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

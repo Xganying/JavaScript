@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>xml_for_ie </title>
+</head>
+<body>
+
+</body>
+<script>
+    /*
+    * 创建XML DOM
+    *  var xmlDom = new ActiveXObject('MSXML2.DOMdcument6.0');
+       alert(xmlDom);
+    * */
+    function createXML(){
+        var version = [
+            'MSXML2.DOMDcument6.0',
+            'MSXML2.DOMDcument3.0',
+            'MSXML2.DOMDcument'
+        ];
+        for(var i=0; i<version.length; i++){
+            try{
+                var xmlDom = new ActiveXObject(version[i]);
+                return xmlDom;
+            }catch(e){
+                //跳过
+            }
+        }
+        throw new Error('您的浏览器不支持MSXML库!');
+    }
+
+    /*
+    //加载XML文件方法一：加载字符 loadXML()
+    var xmlDom = createXML();
+    xmlDom.loadXML('<root>\n<user>Cynthia</user>\n</root>'); //加载字符串
+    alert(xmlDom.xml); //序列化XML，打印字符串
+    var user = xmlDom.getElementsByTagName('user')[0];
+    alert(user.firstChild.nodeValue);
+
+
+    //加载XML文件方法二： 外部加载 load()
+    var xmlDom = createXML();
+    xmlDom.load('./xml_demo.xml');
+    alert(user.nodeType);
+    alert(user.tagName);
+    alert(user.innerHTML); //innerHTML 是非标准DOM
+    //alert(user.firstChild.nodeValue);
+
+
+    //创建新的节点
+    var xmlDom = createXML();
+    xmlDom.load('./xml_demo.xml');
+    var newnode = xmlDom.createElement('newnode');
+    var root = xmlDom.documentElement;
+    root.appendChild(newnode);
+    var newnodeText = xmlDom.createTextNode('hello');
+    newnode.appendChild(newnodeText);
+    alert(xmlDom.xml);
+    */
+
+    var xmlDom = createXML();
+    xmlDom.async=true; //设置加载时同步还是异步，默认是异步trud
+
+    xmlDom.onreadystatechange=function(){ //这个事件放在load()前面，意图先载入事件，再当load执行的时候再激活
+        if(xmlDom.readyState == 4) { //完全加载后
+            if(xmlDom.parseError.errorCode == 0){
+                alert(xmlDom);
+            }
+            else{
+                throw new Error('错误行号：'+xmlDom.parseError.line+
+                                '错误代码：'+xmlDom.parseError.errorCode+
+                                '错误解释：'+xmlDom.parseError.reason);
+            }
+        }
+        //不用this：onreadystatechange里面的this代表window，而不是执行的object
+    }
+    xmlDom.load('./xml_demo.xml');
+
+</script>
+</html>
+
+
+
+
+
+
+
+
+

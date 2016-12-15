@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跨浏览器使用xml</title>
+</head>
+<body>
+
+</body>
+
+<script>
+
+    //跨浏览器返回XMLDOM对象
+    function getXMLDOM(xmlStr){
+        var xmlDom = null;
+        if(typeof window.DOMParser != 'undefined'){
+            xmlDom = (new DOMParser).parseFromString(xmlStr,'text/xml');
+            var errors = xmlDom.getElementsByTagName('parsererror');
+            if(errors.length > 0){
+                throw new Error('错误信息：'+errors[0].textContent);
+            }
+        }
+        else if(typeof window.ActiveXObject != 'undefined'){
+            var version = [
+                'MSXML2.DOMDcument6.0',
+                'MSXML2.DOMDcument3.0',
+                'MSXML2.DOMDcument'
+            ];
+            for(var i=0; i<version.length; i++){
+                try{
+                    var xmlDom = new ActiveXObject(version[i]);
+                }catch(e){
+                    //跳过
+                }
+            }
+            xmlDom.loadXML(xmlStr);
+            if (xmlDom.parseError != 0){
+                throw new Error('错误信息:'+xmlDom.parseError.reason);
+            }
+            return xmlDom;
+        }
+        else{
+            throw new Error('您的浏览器不支持XML DOM对象!');
+        }
+        return xmlDom;
+    }
+
+    //兼容序列化
+    function serializerXML(xmlDom){
+        var xml ='';
+        if(typeof window.serializerXML != 'undefined'){
+            xml = (new serializerXML()).serializeToString(xmlDom);
+        }
+        else if(typeof xmlDom.xml != 'undefined'){
+            xml = xmlDom.xml;
+        }
+        else{
+            throw new Error('无法解析XML！');
+        }
+        return xml;
+    }
+
+    //使用
+    var xmlStr = '<root><user>Cynthia</user></root>';
+    var xmlDom = getXMLDOM(xmlStr);
+    alert(xmlDom);
+    alert(serializerXML(xmlDom));
+
+</script>
+</html>
