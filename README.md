@@ -1,9 +1,9 @@
 # JavaScript 文件说明
-##cereateObject
+## cereateObject
 JavaScript创建对象的几种方式的练习代码。
-##inherit.js
+## inherit.js
 JavaScript继承对象的几种方式的实现代码。
-##XML
+## XML
 这个文件夹里面保存的时xml的练习代码
 
 1_xml_for_ie_use.html : 只适用于IE浏览器的xml实现
