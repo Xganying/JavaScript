@@ -1,8 +1,11 @@
-### JavaScript 文件说明
+### 目录文件说明
+
 ### cereateObject
 JavaScript创建对象的几种方式的练习代码。
+
 ### inherit.js
 JavaScript继承对象的几种方式的实现代码。
+
 ### XML
 这个文件夹里面保存的时xml的练习代码
 
@@ -17,4 +20,8 @@ xml_xpath_common_use: xml结合xpath,并且兼容各个浏览器的实现
 ### waterfall_flow_layout
 
 分别用原生JavaScript,jQuery和CSS3实现瀑布流布局文件。
+
+### Carousel
+
+js实现的轮播图
 
